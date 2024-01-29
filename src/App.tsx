@@ -10,8 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <LayoutContainer>
-        {/* Algo para modificar */}
+      <LayoutContainer>        
         <Home />
       </LayoutContainer>
     </>
