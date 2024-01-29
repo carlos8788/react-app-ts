@@ -11,6 +11,7 @@ function App() {
     <>
       <Navbar />
       <LayoutContainer>
+        {/* Algo para modificar */}
         <Home />
       </LayoutContainer>
     </>
