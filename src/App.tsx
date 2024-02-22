@@ -1,6 +1,8 @@
 import './App.css'
 import { Navbar } from './components'
 import { Home } from './pages'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 import { LayoutContainer } from './styled-components'
 
 
@@ -8,12 +10,12 @@ function App() {
 
 
   return (
-    <>
+    <Provider store={store}>
       <Navbar />
-      <LayoutContainer>        
+      <LayoutContainer>
         <Home />
       </LayoutContainer>
-    </>
+    </Provider>
   )
 }
 
