@@ -3,18 +3,21 @@ import { addFavorite } from "@/redux/states";
 import { AppStore } from "@/redux/store";
 import { Checkbox } from "@mui/material";
 import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const PeopleTable = () => {
+export interface PeopleTableInterface { }
+
+const PeopleTable: React.FC<PeopleTableInterface> = () => {
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
   const pageSize = 5;
   const dispatch = useDispatch()
 
   const statePeople = useSelector((store: AppStore) => store.people)
+  const stateFavorite = useSelector((store: AppStore) => store.favorites)
 
-  const findPerson = (person: Person) => !!selectedPeople.find(p => p.id === person.id);
-  const filterPerson = (person: Person) => selectedPeople.filter(p => p.id !== person.id);
+  const findPerson = (person: Person) => !!stateFavorite.find(p => p.id === person.id);
+  const filterPerson = (person: Person) => stateFavorite.filter(p => p.id !== person.id);
 
   const handleChange = (person: Person) => {
     const filteredPeople = findPerson(person) ? filterPerson(person) : [...selectedPeople, person]
@@ -53,8 +56,22 @@ const PeopleTable = () => {
       flex: 1,
       minWidth: 150,
       renderCell: (params: GridRenderCellParams) => <>{params.value}</>
+    },
+    {
+      field: 'levelOfHappiness',
+      headerName: 'Level of Happiness',
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center',
+      minWidth: 150,
+      renderCell: (params: GridRenderCellParams) => <>{params.value}</>
     }
   ]
+
+  useEffect(() => {
+    setSelectedPeople(stateFavorite)
+  }, [stateFavorite])
+
   return (
     <DataGrid
       rows={statePeople}
